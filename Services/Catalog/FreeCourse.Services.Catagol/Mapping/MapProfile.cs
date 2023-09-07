@@ -13,6 +13,7 @@ namespace FreeCourse.Services.Catagol.Mapping
             CreateMap<Feature,FeatureDto>().ReverseMap();
             CreateMap<CourseCreateDto, Course>();
             CreateMap<CourseUpdateDto, Course>();
+            CreateMap<CategoryCreateDto, Category>();
         }
     }
 }
