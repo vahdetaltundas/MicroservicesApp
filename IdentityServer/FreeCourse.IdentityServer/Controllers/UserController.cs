@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using static IdentityServer4.IdentityServerConstants;
@@ -35,5 +36,23 @@ namespace FreeCourse.IdentityServer.Controllers
             }
             return CreateActionResult(Response<NoContent>.Success(204));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            var userIdClaim=User.Claims.FirstOrDefault(x=>x.Type==JwtRegisteredClaimNames.Sub);
+            if (userIdClaim==null)
+            {
+                return CreateActionResult(Response<NoContent>.Fail("Böyle Bir Claim Yok",400));
+            }
+            var user = await _userManager.FindByIdAsync(userIdClaim.Value);
+            if(user==null)
+            {
+                return CreateActionResult(Response<NoContent>.Fail("Böyle Bir Kullanıcı Yok", 400));
+            }
+            UserDto userDto = new UserDto { Id = user.Id,UserName=user.UserName,Email=user.Email,City=user.City };
+            return CreateActionResult(Response<UserDto>.Success(userDto,200));
+        }
+
     }
 }
