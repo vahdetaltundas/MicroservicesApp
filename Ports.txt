@@ -3,7 +3,8 @@ Serices
 		-FreeCourse.Services.Catalog Port=> 5011
 	-PhotoStock
 		-FreeCourse.PhotoStock Port=> 5012
-
+	-Basket
+		-FreeCourse.Services.Basket=> 5013
 ------------------------------------------------------
 IdentityServer
 	-FreeCourse.IdentityServer Port=> 5001
